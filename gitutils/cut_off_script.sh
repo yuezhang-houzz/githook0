@@ -22,7 +22,7 @@ while getopts ":n:v" opt; do
   esac
 done
 
-if [ -n $ARCHIVE_NAME ]; then
+if [ -n $BACKUP_RELEASE_NAME ]; then
     echo "A backup name for current Release branch is required"
     exit 0
 fi
