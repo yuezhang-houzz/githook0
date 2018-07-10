@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 
-RELEASE_BRANCH="newRelease"
-# TODO should be origin/master
-MASTER_BRANCH="master"
+RELEASE_BRANCH="Release"
+MASTER_BRANCH="origin/master"
 BACKUP_RELEASE_NAME=""
+VERSION_NAME=""
 
-while getopts ":n" opt; do
+while getopts ":n:v" opt; do
   case "$opt" in
     n)
       BACKUP_RELEASE_NAME=$OPTARG
+      ;;
+    v)
+      VERSION_NAME=$OPTARG
       ;;
     \?)
       echo "Invalid option: -$opt" && exit 1
@@ -19,8 +22,13 @@ while getopts ":n" opt; do
   esac
 done
 
-if [ -n ARCHIVE_NAME ]; then
+if [ -n $ARCHIVE_NAME ]; then
     echo "A backup name for current Release branch is required"
+    exit 0
+fi
+
+if [ -n $VERSION_NAME ]; then
+    echo "A new version name is required"
     exit 0
 fi
 
@@ -37,9 +45,16 @@ git branch -m $BACKUP_RELEASE_NAME
 git push origin :$RELEASE_BRANCH $BACKUP_RELEASE_NAME
 git push -u origin $BACKUP_RELEASE_NAME
 
+# add new version name to ReleaseVersion.txt
+echo "add new version name"
+git checkout master
+echo $VERSION_NAME >> ReleaseVersion.txt
+git commit -am "update Release version"
+git pull --rebase
+git push
 
 # create new Release branch out of master
-git checkout -b $RELEASE_BRANCH origin/master
+git checkout -b $RELEASE_BRANCH $MASTER_BRANCH
 git push -u origin $RELEASE_BRANCH
 
 echo "Cut off is Done! Enjoy!"
