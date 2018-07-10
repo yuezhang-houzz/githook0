@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Updating submodules..."
+git submodule update --init
+
+echo "Update githooks..."
+${ROOT_DIR}/gitUtils/install.sh gitUtils/ &> /dev/null
+echo "Done! :)"

@@ -1,0 +1,4 @@
+#!/bin/sh
+exec < /dev/tty || true
+ROOT_DIR=$(git rev-parse --show-toplevel)
+python -B ${ROOT_DIR}/gitutils/code_review_script/pre_rebase_hook.py

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+# Bypass windows user aka Ofir.
+if [[ $OSTYPE == *"windows"* ]]; then
+	exit 0
+fi
+
+#Check whether if the git commiter is associated a houzz email address
+EMAIL=$(git config user.email)
+if [[ $EMAIL == *"@houzz.com"* ]]
+then
+    echo "";
+else
+    echo "email not configured to houzz email";
+    echo "run:"
+    echo '   git config user.email "yourname@houzz.com" in your desired repository'
+    echo ''
+    exit 1;
+fi;
+
+#Check other information via php
+set -e
+ROOT_DIR=$(git rev-parse --show-toplevel)
+
+python -B ${ROOT_DIR}/../gitUtils/c2thrift/code_review_script/code_review_commit_check.py
+
+exit 0;

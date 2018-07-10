@@ -1,0 +1,17 @@
+#!/bin/bash
+exec < /dev/tty
+# Check all files included in the commit for a @restricted and @codereviwed token.
+# If tokens exist, prevent the commit from proceeding unless the current user's email is not
+# among the @author or @reviewer listed in the file.
+
+
+if [[ $OSTYPE == *"windows"* ]]; then
+	exit 0
+fi
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+set -e
+python -B ${ROOT_DIR}/gitutils/code_review_script/code_review_pre_commit_check.py
+
+
+exit 0;

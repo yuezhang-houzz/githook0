@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [[ $OSTYPE == *"windows"* ]]; then
+	# git lfs pre-push "$@"
+	exit 0
+fi
+
+SCRIPT_NAME=$(basename "$0")
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+
+set -e
+
+python -B ${ROOT_DIR}/../gitUtils/c2thrift/code_review_script/code_review_push_check.py $bypass
+
+exit 1;
