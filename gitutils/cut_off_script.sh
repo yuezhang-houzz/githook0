@@ -62,7 +62,7 @@ git push -u origin $BACKUP_RELEASE_NAME
 # add new version name to ReleaseVersion.txt
 echo "add new version name"
 git checkout master
-echo $VERSION_NAME >> ReleaseVersion.txt
+echo "$VERSION_NAME" >> ReleaseVersion.txt
 git commit -am "update Release version"
 git pull --rebase
 git push
