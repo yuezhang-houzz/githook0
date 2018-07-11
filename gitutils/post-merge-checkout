@@ -4,5 +4,15 @@ echo "Updating submodules..."
 git submodule update --init
 
 echo "Update githooks..."
-${ROOT_DIR}/gitUtils/install.sh gitUtils/ &> /dev/null
+${ROOT_DIR}/gitUtils/update.sh gitUtils/ &> /dev/null
+
+
+echo "Release Version check..."
+git fetch
+cmduser=$(whoami)
+if [[ "$cmduser" != "root" ]]; then
+   exec < /dev/tty || true
+   python -B ${ROOT_DIR}/gitutils/code_review_script/post_checkout_hook.py $bypass
+fi
+
 echo "Done! :)"
