@@ -1,4 +1,6 @@
 #!/bin/bash
+# Usage :
+# sh gitutils/cut_off_script -n backup_name -v "new_version_name"
 
 RELEASE_BRANCH="Release"
 MASTER_BRANCH="origin/master"
@@ -12,15 +14,6 @@ while getopts ":n:v:kp:s" opt; do
       ;;
     v)
       VERSION_NAME=$OPTARG
-      ;;
-    k)
-      LKG_BUILD=true
-      ;;
-    p)
-      PROD_BUILD=true
-      ;;
-    s)
-      SHA=$OPTARG
       ;;
     \?)
       echo "Invalid option: -$opt" && exit 1

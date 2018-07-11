@@ -5,6 +5,7 @@ fi
 
 ROOT_DIR=$(git rev-parse --show-toplevel)
 set -e
+exec < /dev/tty
 python -B ${ROOT_DIR}/gitUtils/code_review_script/code_review_commit_check.py $bypass
 
 
