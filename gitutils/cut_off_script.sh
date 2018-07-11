@@ -1,17 +1,26 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 RELEASE_BRANCH="Release"
 MASTER_BRANCH="origin/master"
 BACKUP_RELEASE_NAME=""
 VERSION_NAME=""
 
-while getopts ":n:v" opt; do
+while getopts ":n:v:kp:s" opt; do
   case "$opt" in
     n)
       BACKUP_RELEASE_NAME=$OPTARG
       ;;
     v)
       VERSION_NAME=$OPTARG
+      ;;
+    k)
+      LKG_BUILD=true
+      ;;
+    p)
+      PROD_BUILD=true
+      ;;
+    s)
+      SHA=$OPTARG
       ;;
     \?)
       echo "Invalid option: -$opt" && exit 1
@@ -22,15 +31,19 @@ while getopts ":n:v" opt; do
   esac
 done
 
-if [ -n $BACKUP_RELEASE_NAME ]; then
+echo $BACKUP_RELEASE_NAME
+echo $VERSION_NAME
+
+if [ -z $BACKUP_RELEASE_NAME ]; then
     echo "A backup name for current Release branch is required"
     exit 0
 fi
 
-if [ -n $VERSION_NAME ]; then
+if [ -z $VERSION_NAME ]; then
     echo "A new version name is required"
     exit 0
 fi
+
 
 # check current branch name is Release
 current_branch=$(git rev-parse --abbrev-ref HEAD)
@@ -38,6 +51,7 @@ if [ "$current_branch" != "$RELEASE_BRANCH"  ]; then
     echo "Please switch to Release branch first."
     exit 0
 fi
+
 
 # archive old Release branch
 echo "start to archive current Release branch"
