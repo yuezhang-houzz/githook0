@@ -9,6 +9,7 @@ NEED_CODE_REVIEW	= False
 HAS_CUTOFF          = True
 HAS_SYNTAX_CHECK    = True
 HAS_LANG_ID_CHECK   = False
+HAS_CHERRYPICK_CHECK= False
 RELEASE_BRANCH 		= "newRelease"
 
 # Constants for git hooks

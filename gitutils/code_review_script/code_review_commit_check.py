@@ -26,7 +26,8 @@ if __name__ == '__main__':
 		bypass.bypass_code_review(int(BYPASS))
 
 	# Check if cherry-pick with a '-x' option.
-	misc_check.cherrypick_check()
+	if constants.HAS_CHERRYPICK_CHECK:
+		misc_check.cherrypick_check()
 
 	# C2thrift check, block cherry-pick if c2thrift definition changed
 	if constants.IS_CHECK_THRIFT:
