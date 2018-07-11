@@ -14,10 +14,15 @@ phabricator = Phabricator()
 bypass = Bypass()
 code_review_check = Code_review_check()
 BYPASS = sys.argv[1] if len(sys.argv) > 1 else 0
-
+release_cut_off_check = Release_cut_off_check()
 
 
 if __name__ == '__main__':
+
+	#check if release version is correct
+	if constants.HAS_CUTOFF:
+		release_cut_off_check.release_cutoff_check("commit")
+
 	# If otherthan master and Release, no need for code review check.
 	misc_check.branch_check()
 
