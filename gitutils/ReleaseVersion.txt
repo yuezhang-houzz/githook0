@@ -4,3 +4,4 @@ Release - Amber (2018-07-02)
 Release - Beryl (2018-07-09)Release505
 Release 5 20
 Release 6 15
+Release 6 40
