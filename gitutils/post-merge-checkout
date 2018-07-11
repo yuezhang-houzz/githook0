@@ -8,6 +8,7 @@ ${ROOT_DIR}/gitUtils/update.sh gitUtils/ &> /dev/null
 
 
 echo "Release Version check..."
+ROOT_DIR=$(git rev-parse --show-toplevel)
 git fetch
 cmduser=$(whoami)
 if [[ "$cmduser" != "root" ]]; then
