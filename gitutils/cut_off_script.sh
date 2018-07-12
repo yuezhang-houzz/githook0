@@ -6,8 +6,9 @@ RELEASE_BRANCH="Release"
 MASTER_BRANCH="origin/master"
 BACKUP_RELEASE_NAME=""
 VERSION_NAME=""
+ROOT_DIR=$(git rev-parse --show-toplevel)
 
-while getopts ":n:v:kp:s" opt; do
+while getopts ":n:v:" opt; do
   case "$opt" in
     n)
       BACKUP_RELEASE_NAME=$OPTARG
@@ -55,14 +56,14 @@ git push -u origin $BACKUP_RELEASE_NAME
 # add new version name to ReleaseVersion.txt
 echo "add new version name"
 git checkout master
-echo "$VERSION_NAME" >> ReleaseVersion.txt
-git commit -am "update Release version"
+echo "$VERSION_NAME" >> $ROOT_DIR/gitutils/ReleaseVersion.txt
+git commit -am "update Release version $VERSION_NAME" --no-verify
 git pull --rebase
 git push
 
 # create new Release branch out of master
 git checkout -b $RELEASE_BRANCH $MASTER_BRANCH
-git push -u origin $RELEASE_BRANCH
+git push -u origin $RELEASE_BRANCH --no-verify
 
 echo "Cut off is Done! Enjoy!"
 

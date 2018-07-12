@@ -6,11 +6,11 @@ MAX_LINES           = 0 # lines changed limit for code review
 IS_CHECK_THRIFT     = False
 IS_NEED_DWREVIEW    = False
 NEED_CODE_REVIEW	= False
-HAS_CUTOFF          = True
+HAS_CUTOFF          = False
 HAS_SYNTAX_CHECK    = True
 HAS_LANG_ID_CHECK   = False
 HAS_CHERRYPICK_CHECK= False
-RELEASE_BRANCH 		= "newRelease"
+RELEASE_BRANCH 		= "Release"
 
 # Constants for git hooks
 REPO_NAME           = "C2"

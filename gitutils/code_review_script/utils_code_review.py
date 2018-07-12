@@ -254,20 +254,20 @@ class Misc_Check:
 
 	def branch_check(self):
 		git_branch = self.github.get_git_branch_name()
-		if git_branch != "master" and git_branch != "Release":
+		if git_branch != "master" and git_branch != constants.RELEASE_BRANCH:
 			sys.exit(0)
 
 	def branch_check_c2thrift(self):
 		git_branch = self.github.get_git_branch_name()
-		if not "master" == git_branch and not "Release" == git_branch:
+		if not "master" == git_branch and not constants.RELEASE_BRANCH == git_branch:
 			sys.exit(0)
-		if git_branch == "Release":
+		if git_branch == constants.RELEASE_BRANCH:
 			print("Change on Release branch is forbidden in c2thrift module.")
 			sys.exit(1)
 
 	def cherrypick_check(self):
 		git_branch = self.github.get_git_branch_name()
-		if git_branch == "Release":
+		if git_branch == constants.RELEASE_BRANCH:
 			msg = self.github.get_last_commit_msg()
 			# print msg
 			if not "cherry picked" in msg:
@@ -330,7 +330,7 @@ class Code_review_check:
 		remote_sha 		= self.github.get_git_remote_revision_hash(git_branch)
 		revs_list 		= self.github.get_unpushed_commits(remote_sha,local_sha).splitlines()
 
-		if git_branch == "Release":
+		if git_branch == constants.RELEASE_BRANCH:
 			return True
 
 		lines_changed 	= self.github.get_total_lines_changed(revs_list)
@@ -384,7 +384,7 @@ class Code_review_check:
 		local_revision  = self.github.get_git_revision_hash()
 		remote_revision = self.github.get_git_remote_revision_hash(git_branch.rstrip())
 		revs_list 		= self.github.get_unpushed_commits(remote_revision.rstrip(),local_revision.rstrip()).splitlines()
-		if git_branch == "Release":
+		if git_branch == constants.RELEASE_BRANCH:
 			for rev in revs_list:
 				changed_files = self.github.get_git_changed_files(rev)
 				for file in changed_files:
@@ -470,7 +470,7 @@ class Release_cut_off_check:
 		git_branch = self.github.get_git_branch_name()
 		# user = self.github.get_git_email()
 
-		if git_branch != "Release":
+		if git_branch != constants.RELEASE_BRANCH:
 			return
 
 		# if user == constants.RELEASE_MANAGER:
@@ -488,7 +488,7 @@ class Release_cut_off_check:
 					if type == "merge":
 						subprocess.call("git reset --merge",shell=True)
 						subprocess.call("git merge --abort",shell=True)
-					subprocess.call("git reset --hard origin/Release",shell=True)
+					subprocess.call("git reset --hard origin/{}".format(constants.RELEASE_BRANCH),shell=True)
 					subprocess.call("git submodule update",shell=True)
 					print("Switch to latest Release branch :)")
 					sys.exit(1)
@@ -509,13 +509,13 @@ class Release_cut_off_check:
 				sys.exit(1)
 
 	def is_latest_release_version(self):
-		diff = subprocess.check_output("git diff newRelease:gitutils/ReleaseVersion.txt origin/newRelease:gitutils/ReleaseVersion.txt", shell=True).decode('utf-8')
+		diff = subprocess.check_output("git diff {0}:gitutils/ReleaseVersion.txt origin/{1}:gitutils/ReleaseVersion.txt".format(constants.RELEASE_BRANCH,constants.RELEASE_BRANCH), shell=True).decode('utf-8')
 		return len(diff) > 0
 
 	def release_version_file_check(self):
 		git_branch = self.github.get_git_branch_name()
 		# user = self.github.get_git_email()
-		if git_branch == "Release":
+		if git_branch == constants.RELEASE_BRANCH:
 			diff = subprocess.check_output("git diff gitutils/ReleaseVersion.txt ", shell=True).decode('utf-8')
 			if len(diff) > 0:
 				print("***************************************************")
@@ -525,7 +525,7 @@ class Release_cut_off_check:
 
 	def is_latest_release_version(self):
 		if os.path.exists("gitutils/ReleaseVersion.txt"):
-			diff = subprocess.check_output("git diff Release:gitutils/ReleaseVersion.txt origin/Release:gitutils/ReleaseVersion.txt", shell=True).decode('utf-8')
+			diff = subprocess.check_output("git diff {0}:gitutils/ReleaseVersion.txt origin/{1}:gitutils/ReleaseVersion.txt".format(constants.RELEASE_BRANCH,constants.RELEASE_BRANCH), shell=True).decode('utf-8')
 			return len(diff) > 0
 		else:
 			return False

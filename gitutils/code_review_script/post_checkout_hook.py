@@ -9,4 +9,5 @@ release_cut_off_check = Release_cut_off_check()
 sys.dont_write_bytecode = True
 
 if __name__ == '__main__':
-    release_cut_off_check.release_cutoff_check("checkout")
+    if constants.HAS_CUTOFF:
+        release_cut_off_check.release_cutoff_check("checkout")
