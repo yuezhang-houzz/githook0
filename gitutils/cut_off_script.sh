@@ -50,8 +50,8 @@ fi
 # archive old Release branch
 echo "start to archive current Release branch"
 git branch -m $BACKUP_RELEASE_NAME
-git push origin :$RELEASE_BRANCH $BACKUP_RELEASE_NAME
-git push -u origin $BACKUP_RELEASE_NAME
+git push origin :$RELEASE_BRANCH $BACKUP_RELEASE_NAME --no-verify
+git push -u origin $BACKUP_RELEASE_NAME --no-verify
 
 # add new version name to ReleaseVersion.txt
 echo "add new version name"
@@ -59,7 +59,7 @@ git checkout master
 echo "$VERSION_NAME" >> $ROOT_DIR/gitutils/ReleaseVersion.txt
 git commit -am "update Release version $VERSION_NAME" --no-verify
 git pull --rebase
-git push
+git push --no-verify
 
 # create new Release branch out of master
 git checkout -b $RELEASE_BRANCH $MASTER_BRANCH
