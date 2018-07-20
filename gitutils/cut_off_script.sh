@@ -19,6 +19,7 @@ while getopts ":n:v:" opt; do
       ;;
     t)
       PREVIOUS_RELEASE_TAG=$OPTARG
+      ;;
     \?)
       echo "Invalid option: -$opt" && exit 1
       ;;
@@ -57,6 +58,7 @@ fi
 # tag the current Release branch
 echo "tag the current Release branch"
 git checkout $RELEASE_BRANCH
+git pull
 git tag $PREVIOUS_RELEASE_TAG
 git push origin $PREVIOUS_RELEASE_TAG --no-verify
 
