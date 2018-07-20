@@ -9,7 +9,7 @@ VERSION_NAME=""
 PREVIOUS_RELEASE_TAG=""
 ROOT_DIR=$(git rev-parse --show-toplevel)
 
-while getopts ":n:v:" opt; do
+while getopts ":n:v:t:" opt; do
   case "$opt" in
     n)
       BACKUP_RELEASE_NAME=$OPTARG
