@@ -61,23 +61,46 @@ git checkout $RELEASE_BRANCH
 git pull
 git tag $PREVIOUS_RELEASE_TAG
 git push origin $PREVIOUS_RELEASE_TAG --no-verify
+if [ $? = 0 ] ; then
+    echo "Successfully tagged Release branch"
+else
+    echo "Failed to tag Release branch."
+    exit 1
+fi
+
 
 # archive old Release branch
 echo "start to archive current Release branch"
 git branch -m $BACKUP_RELEASE_NAME
 git push origin :$RELEASE_BRANCH $BACKUP_RELEASE_NAME --no-verify
+if [ $? != 0 ] ; then
+    echo "Failed to archive Release branch."
+    exit 1
+fi
 git push -u origin $BACKUP_RELEASE_NAME --no-verify
+if [ $? != 0 ] ; then
+    echo "Failed to archive Release branch."
+    exit 1
+fi
 
 # add new version name to ReleaseVersion.txt
 echo "add new version name"
 git checkout master
 echo "$VERSION_NAME" >> $ROOT_DIR/gitutils/ReleaseVersion.txt
-git commit -am "update Release version $VERSION_NAME"
+git commit -am "update Release version $VERSION_NAME" --no-verify
+if [ $? != 0 ] ; then
+    echo "Failed to update version."
+    exit 1
+fi
 git pull --rebase
 git push --no-verify
 
 # create new Release branch out of master
 git checkout -b $RELEASE_BRANCH $MASTER_BRANCH
 git push -u origin $RELEASE_BRANCH --no-verify
+if [ $? != 0 ] ; then
+    echo "Failed to create new Release branch."
+    exit 1
+fi
 
 echo "Cut off is Done! Enjoy!"
