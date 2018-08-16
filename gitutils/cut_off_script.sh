@@ -47,6 +47,7 @@ if [ -z $PREVIOUS_RELEASE_TAG ]; then
     exit 0
 fi
 
+read -p "Please make sure $RELEASE_BRANCH branch is not protected, then press enter to continue"
 
 # check current branch name is Release
 # current_branch=$(git rev-parse --abbrev-ref HEAD)
