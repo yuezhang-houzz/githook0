@@ -48,18 +48,11 @@ if [ -z $PREVIOUS_RELEASE_TAG ]; then
 fi
 
 read -p "Please make sure $RELEASE_BRANCH branch is not protected, then press enter to continue"
-
-# check current branch name is Release
-# current_branch=$(git rev-parse --abbrev-ref HEAD)
-# if [ "$current_branch" != "$RELEASE_BRANCH"  ]; then
-#     echo "Please switch to Release branch first."
-#     exit 0
-# fi
-
 # tag the current Release branch
 echo "tag the current Release branch"
 git checkout $RELEASE_BRANCH
 git pull
+hz_rm cutoff
 git tag $PREVIOUS_RELEASE_TAG
 git push origin $PREVIOUS_RELEASE_TAG --no-verify
 if [ $? = 0 ] ; then
