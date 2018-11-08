@@ -52,7 +52,7 @@ read -p "Please make sure $RELEASE_BRANCH branch is not protected, then press en
 echo "tag the current Release branch"
 git checkout $RELEASE_BRANCH
 git pull
-hz_rm cutoff
+hzrm cutoff
 git tag $PREVIOUS_RELEASE_TAG
 git push origin $PREVIOUS_RELEASE_TAG --no-verify
 if [ $? = 0 ] ; then
