@@ -4,7 +4,7 @@
 # cherry-pick with '-x' and giving code review suggestion.
 # wiki : https://cr.houzz.net/w/dev-introduction/workflow/
 
-import sys,subprocess
+import sys
 from utils_code_review import *
 
 sys.dont_write_bytecode = True
@@ -19,14 +19,14 @@ release_cut_off_check = Release_cut_off_check()
 
 if __name__ == '__main__':
 
-	#check if release version is correct
+	# check if release version is correct
 	if constants.HAS_CUTOFF:
 		release_cut_off_check.release_cutoff_check("commit")
 
-	# If otherthan master and Release, no need for code review check.
+	# If other than master and Release, no need for code review check.
 	misc_check.branch_check()
 
-	#Bypass code review check
+	# Bypass code review check
 	if constants.NEED_CODE_REVIEW:
 		bypass.bypass_code_review(int(BYPASS))
 

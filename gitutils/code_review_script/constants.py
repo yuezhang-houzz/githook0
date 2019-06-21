@@ -2,33 +2,36 @@
 # Author:yue.zhang@houzz.com
 
 # Configuration for code review
-MAX_LINES           = 0 # lines changed limit for code review
-IS_CHECK_THRIFT     = False
-IS_NEED_DWREVIEW    = False
-NEED_CODE_REVIEW	= False
-HAS_CUTOFF          = False
-HAS_SYNTAX_CHECK    = True
-HAS_LANG_ID_CHECK   = False
-HAS_CHERRYPICK_CHECK= False
-RELEASE_BRANCH 		= "Release"
+MAX_LINES = 0# lines changed limit for code review
+IS_CHECK_THRIFT = False
+IS_NEED_DWREVIEW = False
+NEED_CODE_REVIEW = False
+HAS_CUTOFF = False
+HAS_SYNTAX_CHECK = True
+HAS_LANG_ID_CHECK = False
+HAS_CHERRY_PICK_CHECK = False
+RELEASE_BRANCH = "Release"
 
 # Constants for git hooks
-REPO_NAME           = "C2"
-THRIFT_EXT          = ".thrift"
-PHP_EXT             = ".php"
-JS_EXT              = ".js"
-GOOD_STATUS = ["Accepted","Closed"]
-CODE_REVIEW_STATUS = {}
-CODE_REVIEW_STATUS[1] = "Congratulations! You've passed code review check!"
-CODE_REVIEW_STATUS[2] = "Please request a code review,reviewers should be one of:"
-CODE_REVIEW_STATUS[3] = "Your code review is not approved,please get approval by:"
+REPO_NAME = "C2"
+THRIFT_EXT = ".thrift"
+PHP_EXT = ".php"
+JS_EXT = ".js"
+GOOD_STATUS = ["Accepted", "Closed"]
 
-BYPASS_IMPRINT = {}
-BYPASS_IMPRINT[1] = "{bypass=1}"
-BYPASS_IMPRINT[2] = "{bypass=2}"
-BYPASS_IMPRINT[3] = "{bypass=3}"
-BYPASS_IMPRINT[4] = "{bypass=4}"
+CODE_REVIEW_STATUS = {
+    1: "Congratulations! You've passed code review check!",
+    2: "Please request a code review, reviewers should be one of:",
+    3: "Your code review is not approved, please get approval by:",
+}
 
+BYPASS_IMPRINT = {
+    1: "{bypass=1}",
+    2: "{bypass=2}",
+    3: "{bypass=3}",
+    4: "{bypass=4}",
+    5: "{bypass=5}"
+}
 
 # Alert content
 NO_OWNER_ALERT = """
@@ -41,7 +44,7 @@ Please add owners at the top of file and the standard format should be:
 ===========================================================================
 """
 
-PRE_PUSH_ALERT="""
+PRE_PUSH_ALERT = """
 ===========================================================================
 :( There are no reviewers for this change.
 Code can only be pushed if it's been reviewed by at least 1 person besides committer!
@@ -58,7 +61,7 @@ ownername1 ownername2
 ===========================================================================
 """
 
-ARC_CHECK_ALERT="""
+ARC_CHECK_ALERT = """
 ===========================================================================
 You're unable to push because your arc is not installed properly. 
 Arc is needed for code review purpose. 
@@ -78,6 +81,9 @@ The "_id" field should not be removed or regenerated.
 Use bypass=1 git commit if you're sure you need to update _id.
 ===========================================================================
 """
+
+BYPASS_INFO = """In case of emergent production issue,please use:bypass=4 git commit -m'msg' to bypass all githooks.
+More info please refer : https://cr.houzz.net/w/dev-introduction/workflow/#how-to-bypass-code-revie"""
 
 
 
